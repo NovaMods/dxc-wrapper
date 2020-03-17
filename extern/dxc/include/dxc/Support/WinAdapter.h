@@ -587,6 +587,7 @@ template <typename T> inline void **IID_PPV_ARGS_Helper(T **pp) {
 
 //===--------------------- COM Interfaces ---------------------------------===//
 
+// I've added the definition for IUnknown here because for some reason the linker can't find it in the DXC binary
 struct __declspec(uuid("00000000-0000-0000-C000-000000000046")) IUnknown {
   virtual HRESULT QueryInterface(REFIID riid, void **ppvObject) = 0;
     virtual ULONG AddRef()
