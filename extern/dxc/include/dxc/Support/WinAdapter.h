@@ -589,9 +589,21 @@ template <typename T> inline void **IID_PPV_ARGS_Helper(T **pp) {
 
 struct __declspec(uuid("00000000-0000-0000-C000-000000000046")) IUnknown {
   virtual HRESULT QueryInterface(REFIID riid, void **ppvObject) = 0;
-  virtual ULONG AddRef();
-  virtual ULONG Release();
-  virtual ~IUnknown();
+    virtual ULONG AddRef()
+    {
+        ++m_count;
+        return m_count;
+    };
+    virtual ULONG Release()
+    {
+        ULONG result = --m_count;
+        if (m_count == 0)
+        {
+            delete this;
+        }
+        return result;
+    };
+  virtual ~IUnknown() {};
   template <class Q> HRESULT QueryInterface(Q **pp) {
     return QueryInterface(__uuidof(Q), (void **)pp);
   }
